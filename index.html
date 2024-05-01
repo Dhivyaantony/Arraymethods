@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Array Operations</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .output {
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Array Operations</h1>
+        <div class="input-group">
+            <input type="text" id="fruit-input" placeholder="Enter fruit names, separated by commas" />
+            <button id="add-fruits">Add to Array</button>
+            <button id="remove-last">Pop Last</button>
+            <button id="remove-first">Shift First</button>
+        </div>
+        
+        <div class="input-group">
+            <button id="slice-array">Slice (0, 2)</button>
+            <button id="splice-array">Splice (1, 1, 'kiwi')</button>
+            <button id="reduce-array">Reduce (concat)</button>
+            <button id="sort-array">Sort</button>
+            <button id="reverse-array">Reverse</button>
+        </div>
+
+        <div class="input-group">
+            <button id="find-array">Find ('a')</button>
+            <button id="filter-array">Filter ('a')</button>
+            <button id="some-array">Some (contains 'a')</button>
+            <button id="every-array">Every (contains 'a')</button>
+            <button id="concat-array">Concat with [grape, lemon]</button>
+            <button id="flat-array">Flat [[1, 2], [3, 4]]</button>
+        </div>
+
+        <div class="output" id="results">Array results will appear here.</div>
+
+        <script>
+            let fruits = ['apple', 'banana', 'orange']; // Initial array
+            const fruitInput = document.getElementById('fruit-input');
+            const results = document.getElementById('results');
+            
+            // Function to update the results output
+            function updateResults() {
+                results.innerHTML = `Current array: ${fruits.join(', ')}<br>`;
+            }
+
+            // Add event listeners for each operation
+            document.getElementById('add-fruits').addEventListener('click', () => {
+                const newFruits = fruitInput.value.split(',').map(fruit => fruit.trim()); // Split and trim
+                fruits = [...fruits, ...newFruits]; // Add to existing array
+                updateResults(); // Update output
+            });
+
+            document.getElementById('remove-last').addEventListener('click', () => {
+                fruits.pop(); // Remove the last element
+                updateResults(); // Update output
+            });
+
+            document.getElementById('remove-first').addEventListener('click', () => {
+                fruits.shift(); // Remove the first element
+                updateResults(); // Update output
+            });
+
+            document.getElementById('slice-array').addEventListener('click', () => {
+                const sliced = fruits.slice(0, 2); // Slice from 0 to 2
+                results.innerHTML += `Sliced (0, 2): ${sliced.join(', ')}<br>`;
+            });
+
+            document.getElementById('splice-array').addEventListener('click', () => {
+                fruits.splice(1, 1, 'kiwi'); // Splice at index 1
+                updateResults(); // Update output
+            });
+
+            document.getElementById('reduce-array').addEventListener('click', () => {
+                const reduced = fruits.reduce((acc, fruit) => acc + ', ' + fruit, ''); // Concatenate
+                results.innerHTML += `Reduced (concatenated): ${reduced}<br>`;
+            });
+
+            document.getElementById('sort-array').addEventListener('click', () => {
+                fruits.sort(); // Sort the array
+                updateResults(); // Update output
+            });
+
+            document.getElementById('reverse-array').addEventListener('click', () => {
+                fruits.reverse(); // Reverse the array
+                updateResults(); // Update output
+            });
+
+            document.getElementById('find-array').addEventListener('click', () => {
+                const found = fruits.find(fruit => fruit.includes('a')); // Find first fruit with 'a'
+                results.innerHTML += `Found (contains 'a'): ${found}<br>`;
+            });
+
+            document.getElementById('filter-array').addEventListener('click', () => {
+                const filtered = fruits.filter(fruit => fruit.includes('a')); // Filter fruits with 'a'
+                results.innerHTML += `Filtered (contains 'a'): ${filtered.join(', ')}<br>`;
+            });
+
+            document.getElementById('some-array').addEventListener('click', () => {
+                const someContainA = fruits.some(fruit => fruit.includes('a')); // Check if any contains 'a'
+                results.innerHTML += `Some contain 'a': ${someContainA}<br>`;
+            });
+
+            document.getElementById('every-array').addEventListener('click', () => {
+                const everyContainA = fruits.every(fruit => fruit.includes('a')); // Check if every fruit contains 'a'
+                results.innerHTML += `Every fruit contains 'a': ${everyContainA}<br>`;
+            });
+
+            document.getElementById('concat-array').addEventListener('click', () => {
+                const concatenated = fruits.concat(['grape', 'lemon']); // Concatenate with another array
+                results.innerHTML += `Concatenated with [grape, lemon]: ${concatenated.join(', ')}<br>`;
+            });
+
+            document.getElementById('flat-array').addEventListener('click', () => {
+                const nested = [[1, 2], [3, 4]]; 
+                const flattened = nested.flat(); // Flatten one level
+                results.innerHTML += `Flattened: ${flattened.join(', ')}<br>`;
+            });
+
+            // Initial update
+            updateResults(); // Display initial array
+        </script>
+    </div>
+</body>
+</html>
